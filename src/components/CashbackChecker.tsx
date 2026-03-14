@@ -139,8 +139,13 @@ export default function CashbackChecker() {
 
       setTxSignature(signature);
       setStatus("success");
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
+    } catch (err: unknown) {
+      console.error("Claim error:", err);
+      const msg = err instanceof Error
+        ? err.message
+        : typeof err === "object" && err !== null
+          ? JSON.stringify(err)
+          : String(err);
       if (msg.includes("InsufficientFundsForRent") || msg.includes("insufficient funds for rent")) {
         setError(
           "Transaction failed: the fee wallet needs to be funded with at least ~0.001 SOL before it can receive fees. Please fund the fee wallet and try again."
