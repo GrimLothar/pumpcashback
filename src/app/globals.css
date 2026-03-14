@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* Override wallet adapter button styles to blend in */
+.wallet-adapter-button {
+  font-family: inherit !important;
+}
