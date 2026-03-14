@@ -39,12 +39,16 @@ export default function CashbackChecker() {
   const { publicKey, signTransaction } = useWallet();
   const { connection } = useConnection();
 
-  // Pre-populate input with connected wallet address
+  // Pre-populate input with connected wallet address and clear stale results
   const prevPublicKey = useRef<string | null>(null);
   useEffect(() => {
     const newKey = publicKey?.toBase58() ?? null;
     if (newKey && newKey !== prevPublicKey.current) {
       setAddress(newKey);
+      setBalances(null);
+      setTxSignature("");
+      setError("");
+      setStatus("idle");
     }
     prevPublicKey.current = newKey;
   }, [publicKey]);
